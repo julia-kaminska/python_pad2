@@ -1,4 +1,4 @@
-from homework2.task_1 import tetranacci
+from homework2.task_1 import Tetranacci
 from homework2.task_2 import repeat
 from homework2.task_3 import Pojazd
 from homework2.task_4 import Autobus, Vehicle
@@ -6,9 +6,9 @@ from homework2.task_5 import FunkcjaKwadratowa
 
 # task 1
 steps = 10
-for i in range(steps + 1):
-    result = tetranacci(i)
-    print(f"Tetranacci({i}) = {result}")
+tet = Tetranacci(steps)
+for value in tet:
+    print(value)
 
 # task 2
 generator_1 = repeat(10,3)

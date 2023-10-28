@@ -1,21 +1,36 @@
-def tetranacci_cache(func):
+def cache_decorator(func):
     cache = {}
 
-    def wrapper(n):
+    def wrapper(self, n):
         if n not in cache:
-            cache[n] = func(n)
+            cache[n] = func(self, n)
         return cache[n]
 
     return wrapper
 
+class Tetranacci:
+    def __init__(self, steps):
+        self.steps = steps
+        self.counter = 0
+        self.values = [0, 0, 0, 1]
 
-@tetranacci_cache
-def tetranacci(steps):
-    if steps < 4:
-        return [0, 0, 0, 1][steps]
-    else:
-        values = [0, 0, 0, 1]
-        for _ in range(steps - 3):
-            next_value = sum(values)
-            values = values[1:] + [next_value]
-        return values[-1]
+    @cache_decorator
+    def calculate_tetranacci(self, n):
+        if n <= 3:
+            return self.values[n]
+        else:
+            next_value = sum(self.values)
+            self.values = self.values[1:] + [next_value]
+            return next_value
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.counter < self.steps:
+            self.counter += 1
+            result = self.calculate_tetranacci(self.counter - 1)
+            return result
+        else:
+            raise StopIteration
+
